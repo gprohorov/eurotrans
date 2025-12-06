@@ -1,0 +1,15 @@
+package edu.eurotrans.mapper;
+
+import edu.eurotrans.api.dto.TruckDTO;
+import edu.eurotrans.dao.entity.TruckEntity;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+
+@Mapper
+public interface TruckMapper {
+
+    TruckEntity toEntity(TruckDTO dto);
+
+    @Mapping(target = "companyId", source = "entity.company.id")
+    TruckDTO toDTO(TruckEntity entity);
+}

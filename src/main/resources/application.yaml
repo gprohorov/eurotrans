@@ -1,0 +1,25 @@
+spring:
+  devtools:
+    restart:
+      poll-interval: 2s
+      quiet-period: 1s
+  datasource:
+    url: jdbc:postgresql://${DBHOST}:5432/trucktrack
+    username: ${DBUSER}
+    password: ${DBPASS}
+    driver-class-name: org.postgresql.Driver
+  flyway:
+    enabled: true
+    url: jdbc:postgresql://${DBHOST}:5432/trucktrack
+    username: ${DBUSER}
+    password: ${DBPASS}
+    driver-class-name: org.postgresql.Driver
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+apiKey: ${GOOGLE_MAPS_API_KEY}
+
+vaadin:
+  whitelisted-packages: edu.trucktrack.ui
+  servlet:
+    productionMode: true

@@ -1,0 +1,32 @@
+package edu.eurotrans.api.dto;
+
+import edu.eurotrans.dao.entity.CurrencyEntity;
+import lombok.Builder;
+import lombok.Data;
+
+import java.time.LocalDateTime;
+
+@Data
+@Builder(toBuilder = true)
+public class EmployeeDTO {
+
+    private Long id;
+
+    private String name;
+
+    private String email;
+
+    private String password;
+
+    private String phoneNumber;
+
+    private CurrencyEntity currency;
+
+    private Long totalSalary;
+
+    private Long totalExpenses;
+
+    private String totalCurrency;
+
+    private LocalDateTime createdAt;
+}

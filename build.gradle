@@ -1,0 +1,92 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.0.4'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'com.vaadin' version '24.0.0'
+    id 'com.google.cloud.tools.appengine' version '2.4.4'
+}
+
+group = 'edu'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+vaadin {
+    productionMode = true
+}
+
+compileJava {
+    options.compilerArgs = [
+            '-Amapstruct.defaultComponentModel=spring'
+    ]
+}
+
+repositories {
+    mavenCentral()
+    maven { url = "https://maven.vaadin.com/vaadin-addons" }
+
+}
+
+ext {
+    set('vaadinVersion', "24.0.0")
+}
+
+tasks.register('setEnv') {
+    doLast {
+        exec {
+            file('trucktrack.env').readLines().each() {
+                def (key, value) = it.tokenize('=')
+                environment key, value
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-jooq'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-devtools'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.0.2'
+    implementation group: 'commons-io', name: 'commons-io', version: '2.12.0'
+    implementation group: 'com.itextpdf', name: 'itextpdf', version: '5.5.13.3'
+    implementation group: 'com.opencsv', name: 'opencsv', version: '5.7.1'
+    implementation group: 'org.apache.commons', name: 'commons-email', version: '1.5'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+
+    implementation group: 'com.flowingcode.vaadin.addons', name: 'google-maps', version: '1.8.2'
+    implementation 'com.vaadin:vaadin-spring-boot-starter'
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'org.postgresql:postgresql'
+    implementation 'org.flywaydb:flyway-core'
+
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    implementation 'org.mapstruct:mapstruct:1.5.4.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.4.Final'
+
+    // Vaadin addons
+    implementation "com.vaadin:vaadin:20.+"
+    implementation 'org.vaadin.addons.e-movimento:moneyfield:2.1.8'
+    implementation 'org.vaadin.addons.mycompany:badge:2.2.2'
+    implementation 'com.github.diasadm:daterange-picker:1.0.0'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "com.vaadin:vaadin-bom:${vaadinVersion}"
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
